@@ -1,0 +1,334 @@
+html {
+    box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #ffffff url('../img/geometry2.png');
+    /* Background pattern from Subtle Patterns */
+    font-family: 'Coda', cursive;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 95%;
+    min-width: 300px;
+    max-width: 600px;
+    margin: auto;
+}
+
+header {
+    width: 100%;
+    text-align: center;
+}
+
+h1 {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+    margin: 10px auto 10px;
+    font-size: 2.6em;
+}
+
+
+/*
+ * Styles for the deck of cards
+ */
+
+.deck {
+    width: 100%;
+    height: 320px;
+    background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);
+    padding: 32px;
+    border-radius: 10px;
+    box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 0 3em;
+}
+
+.deck .card {
+    width: calc((100% - 30px)/4);
+    min-width: 50px;
+    min-height: calc((100% - 30px)/4);
+    /* min-height: 50px; */
+    /* margin: 2% 2%; */
+    background: #2e3d49;
+    font-size: 0;
+    color: #ffffff;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
+}
+
+.deck .card.open {
+    transform: rotateY(0);
+    background: #eece42;
+    cursor: default;
+    animation-name: flipInY;
+    -webkit-backface-visibility: visible !important;
+    backface-visibility: visible !important;
+    animation-duration: .75s;
+}
+
+.deck .card.show {
+    font-size: 33px;
+}
+
+.deck .card.match {
+    cursor: default;
+    background: #f8801e;
+    font-size: 33px;
+    animation-name: tada;
+    -webkit-backface-visibility: visible !important;
+    backface-visibility: visible !important;
+    animation-duration: .75s;
+}
+
+.card .fa {
+    font-size: 50%;
+}
+
+
+/*
+ * Styles for the Score Panel
+ */
+
+.score-panel {
+    text-align: left;
+    width: 100%;
+    margin-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    /* font-size: 2.5em; */
+}
+
+.score-panel .stars {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    margin: 0 5px 0 0;
+    width: 100%;
+    text-align: center;
+}
+
+.score-panel .stars li,
+#starRating .stars {
+    list-style: none;
+    display: inline-block;
+    color: yellow;
+    font-size: 2em;
+}
+
+.score-panel .restart {
+    /* float: right; */
+    cursor: pointer;
+    font-size: 1.5em;
+    width: 20%;
+    text-align: center;
+}
+
+.score-panel h2 {
+    text-align: center;
+    margin: 0 auto 10px;
+    font-size: 2em;
+}
+
+.timer,
+.moves {
+    font-size: 1.5em;
+    /* padding-left: 10px; */
+    width: 40%;
+    text-align: center;
+}
+
+
+/*
+ * Styles for congratulations modal
+ */
+
+.overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    transition: opacity 500ms;
+    visibility: hidden;
+    opacity: 0;
+}
+
+.overlay:target {
+    visibility: visible;
+    opacity: 1;
+}
+
+.popup {
+    margin: 50px auto;
+    padding: 20px;
+    background: #f7edc2;
+    border-radius: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    width: 85%;
+    max-width: 350px;
+    position: relative;
+    transition: all 5s ease-in-out;
+    font-family: 'Gloria Hallelujah', cursive;
+}
+
+.popup h2 {
+    margin-top: 20px;
+    color: rgb(30, 81, 252);
+    font-family: Tahoma, Arial, sans-serif;
+    text-align: center;
+    font-size: 1.5em;
+    width: 100%;
+}
+
+.popup p {
+    font-size: 1.5em;
+}
+
+.popup .close {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    transition: all 200ms;
+    font-size: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
+}
+
+.popup .close:hover {
+    color: #E5F720;
+}
+
+.popup .content-1,
+.content-2 {
+    max-height: 30%;
+    overflow: auto;
+    text-align: center;
+    width: 100%;
+}
+
+.show {
+    visibility: visible !important;
+    opacity: 100 !important;
+}
+
+#starRating li {
+    display: inline-block;
+}
+
+#play-again {
+    background-color: #a7bad0;
+    font-size: 1.8em;
+    display: block;
+    width: 100%;
+    margin: 0 15%;
+    font-family: 'Gloria Hallelujah', cursive;
+    color: #ffffff;
+    border-radius: 5px;
+}
+
+
+/* -------------------animation-------------------- */
+
+@-webkit-keyframes tada {
+    from {
+        -webkit-transform: scale3d(1, 1, 1);
+        transform: scale3d(1, 1, 1);
+    }
+    10%,
+    20% {
+        -webkit-transform: scale3d(0.9, 0.9, 0.9) rotate3d(0, 0, 1, -3deg);
+        transform: scale3d(0.9, 0.9, 0.9) rotate3d(0, 0, 1, -3deg);
+    }
+    30%,
+    50%,
+    70%,
+    90% {
+        -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);
+        transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);
+    }
+    40%,
+    60%,
+    80% {
+        -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);
+        transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);
+    }
+    to {
+        -webkit-transform: scale3d(1, 1, 1);
+        transform: scale3d(1, 1, 1);
+    }
+}
+
+@keyframes flipInY {
+    from {
+        transform: perspective(400px) rotate3d(0, 1, 0, 90deg);
+        animation-timing-function: ease-in;
+        opacity: 0;
+    }
+    40% {
+        transform: perspective(400px) rotate3d(0, 1, 0, -20deg);
+        animation-timing-function: ease-in;
+    }
+    60% {
+        transform: perspective(400px) rotate3d(0, 1, 0, 10deg);
+        opacity: 1;
+    }
+    80% {
+        transform: perspective(400px) rotate3d(0, 1, 0, -5deg);
+    }
+    to {
+        transform: perspective(400px);
+    }
+}
+
+
+/* -------------------------------------
+------------Media querries-----------
+-------------------------------------- */
+
+@media screen and (min-width: 450px) {
+    .deck {
+        width: 450px;
+        height: 420px;
+    }
+    .card .fa {
+        font-size: 75%;
+    }
+}
+
+@media screen and (min-width: 720px) {
+    .deck {
+        width: 600px;
+        height: 500px;
+    }
+    .card .fa {
+        font-size: 100%;
+    }
+}
